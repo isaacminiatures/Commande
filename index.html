@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SamSyx | Créateur de Miniatures YouTube & Gaming</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#2563eb", secondary: "#10b981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Montserrat', sans-serif;
+      }
+      .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      }
+      .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 90%;
+      }
+      .success-message {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #2563eb, #10b981);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      z-index: 1001;
+      animation: slideDown 0.5s ease-out;
+      }
+      @keyframes slideDown {
+      from { transform: translate(-50%, -100%); }
+      to { transform: translate(-50%, 0); }
+      }
+      .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      animation: confetti-fall 3s linear forwards;
+      z-index: 999;
+      }
+      @keyframes confetti-fall {
+      0% { transform: translateY(-100vh) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(720deg); }
+      }
+      scroll-behavior: smooth;
+      background: linear-gradient(to bottom, #ffffff, #f0f7ff, #ffffff);
+      }
+      @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+      }
+      .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+      }
+      @keyframes slideIn {
+      0% { transform: translateY(-100%); opacity: 0; }
+      50% { transform: translateY(20%); opacity: 0.8; }
+      100% { transform: translateY(0); opacity: 1; }
+      }
+      @keyframes checkmark {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+      }
+      .success-notification {
+      animation: slideIn 0.8s ease-out forwards;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      }
+      .checkmark-circle {
+      width: 50px;
+      height: 50px;
+      background: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: checkmark 0.5s ease-out forwards;
+      }
+      .btn-hover {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+      }
+      .btn-hover:hover {
+      transform: translateY(-3px) rotateX(5deg);
+      }
+      .btn-hover::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      background: linear-gradient(90deg, var(--tw-color-primary), var(--tw-color-secondary));
+      z-index: -1;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      }
+      .btn-hover:hover::before {
+      opacity: 0.5;
+      }
+      .hero-bg::before,
+      .palm-bg::before,
+      .contact-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 70%, white);
+      pointer-events: none;
+      opacity: 0.6;
+      }
+      .palm-bg {
+      background-image: url('https://readdy.ai/api/search-image?query=tropical%20palm%20leaves%20pattern%2C%20light%20blue%20and%20green%20gradient%20background%2C%20subtle%2C%20modern%2C%20minimal%20design%20pattern%2C%20high%20quality%2C%20digital%20art&width=1920&height=1080&seq=palm-bg&orientation=landscape');
+      background-size: cover;
+      background-position: center;
+      }
+      .hero-bg {
+      background-image: url('https://readdy.ai/api/search-image?query=modern%20tropical%20paradise%20background%20with%20palm%20trees%20and%20gradient%20from%20blue%20to%20green%2C%20digital%20art%2C%20minimalist%20style%2C%20perfect%20for%20web%20design%2C%20light%20atmosphere%2C%20professional%20look%2C%20subtle%20palm%20leaf%20silhouettes%20on%20the%20right%20side%2C%20clean%20design%2C%20leaving%20space%20for%20text%20on%20the%20left%20side&width=1920&height=1080&seq=hero-bg&orientation=landscape');
+      background-size: cover;
+      background-position: center;
+      }
+      .contact-bg {
+      background-image: url('https://readdy.ai/api/search-image?query=abstract%20blue%20and%20green%20gradient%20background%20with%20subtle%20tropical%20elements%2C%20digital%20art%2C%20modern%20minimalist%20design%2C%20professional%20look%20for%20contact%20section&width=1920&height=800&seq=contact-bg&orientation=landscape');
+      background-size: cover;
+      background-position: center;
+      }
+      .btn-hover {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: all 0.3s ease;
+      }
+      .btn-hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.6s ease;
+      z-index: -1;
+      }
+      .btn-hover:hover::before {
+      left: 100%;
+      }
+      .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .portfolio-item {
+      overflow: hidden;
+      perspective: 1000px;
+      }
+      .portfolio-item img {
+      transition: transform 0.5s ease;
+      transform-style: preserve-3d;
+      }
+      .portfolio-item:hover img {
+      transform: scale(1.05) rotateX(5deg) rotateY(-5deg);
+      }
+      .nav-link {
+      position: relative;
+      }
+      .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background: linear-gradient(90deg, var(--tw-color-primary), var(--tw-color-secondary));
+      transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+      width: 100%;
+      }
+      input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--tw-color-primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      }
+      @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+      }
+      .float {
+      animation: float 4s ease-in-out infinite;
+      }
+      .float-delay-1 {
+      animation-delay: 1s;
+      }
+      .float-delay-2 {
+      animation-delay: 2s;
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+    <!-- Header -->
+    <header class="fixed w-full bg-white bg-opacity-95 shadow-md z-50">
+      <div
+        class="container mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <a href="#" class="text-3xl font-['Pacifico'] text-primary"
+          >Isaac Off</a
+        >
+        <nav class="hidden md:flex space-x-8">
+          <a
+            href="#portfolio"
+            class="nav-link text-gray-800 font-medium hover:text-primary transition-colors"
+            >Portfolio</a
+          >
+          <a
+            href="#services"
+            class="nav-link text-gray-800 font-medium hover:text-primary transition-colors"
+            >Services</a
+          >
+          <a
+            href="#tarifs"
+            class="nav-link text-gray-800 font-medium hover:text-primary transition-colors"
+            >Tarifs</a
+          >
+          <a
+            href="#contact"
+            class="nav-link text-gray-800 font-medium hover:text-primary transition-colors"
+            >Contact</a
+          >
+        </nav>
+        <div class="flex items-center space-x-4">
+          <a
+            href="https://discord.gg/Qfj7XZ82KZ"
+            target="_blank"
+            class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors"
+          >
+            <i class="ri-discord-line ri-lg"></i>
+          </a>
+          <a
+            href="https://www.youtube.com/@samsyx_off"
+            target="_blank"
+            class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors"
+          >
+            <i class="ri-youtube-line ri-lg"></i>
+          </a>
+          <a
+            href="https://www.behance.net/gallery/226038779/PORTFOLIO-ISAAC"
+            target="_blank"
+            class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors"
+          >
+            <i class="ri-behance-line ri-lg"></i>
+          </a>
+          <button
+            class="md:hidden w-10 h-10 flex items-center justify-center"
+            id="mobile-menu-button"
+          >
+            <i class="ri-menu-line ri-lg"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div class="md:hidden hidden bg-white w-full" id="mobile-menu">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+          <a
+            href="#portfolio"
+            class="text-gray-800 font-medium hover:text-primary transition-colors py-2"
+            >Portfolio</a
+          >
+          <a
+            href="#services"
+            class="text-gray-800 font-medium hover:text-primary transition-colors py-2"
+            >Services</a
+          >
+          <a
+            href="#tarifs"
+            class="text-gray-800 font-medium hover:text-primary transition-colors py-2"
+            >Tarifs</a
+          >
+          <a
+            href="#contact"
+            class="text-gray-800 font-medium hover:text-primary transition-colors py-2"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </header>
+    <!-- Hero Section -->
+    <section
+      class="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"
+      ></div>
+      <div class="container mx-auto px-6 py-16 relative z-10">
+        <div class="max-w-2xl">
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+          >
+            Créateur de <span class="text-primary">Miniatures</span> YouTube &
+            Gaming
+          </h1>
+          <p class="text-lg md:text-xl text-white/90 mb-8">
+            Transformez votre contenu avec des miniatures captivantes qui
+            attirent l'attention. Spécialiste Roblox et Gaming.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href="#portfolio"
+              class="btn-hover bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-8 !rounded-button shadow-lg transition-all whitespace-nowrap"
+            >
+              Voir mon portfolio
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 right-0 opacity-30 pointer-events-none">
+        <div class="float">
+          <i class="ri-leaf-line ri-10x text-secondary"></i>
+        </div>
+      </div>
+      <div class="absolute top-1/4 right-1/4 opacity-20 pointer-events-none">
+        <div class="float float-delay-1">
+          <i class="ri-leaf-line ri-8x text-primary"></i>
+        </div>
+      </div>
+    </section>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Mon <span class="text-primary">Portfolio</span>
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Découvrez mes créations pour YouTube, Roblox et d'autres projets
+            gaming. Chaque miniature est conçue pour maximiser les clics et
+            l'engagement.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="portfolio-item rounded-lg overflow-hidden shadow-lg">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://cdn.discordapp.com/attachments/1372928783446708365/1372952137059012659/maxresdefault.png?ex=6828a4d1&is=68275351&hm=ed87f84add25d04cf63eeff58d4299a80e983ed2a65497ae107487f08d5d96b2&"
+                alt="Miniature YouTube"
+                class="w-full h-64 object-cover object-top"
+              />
+            </div>
+          </div>
+          <div
+            class="portfolio-item rounded-lg overflow-hidden shadow-lg group"
+            data-category="youtube gaming"
+          >
+            <div class="relative overflow-hidden">
+              <img
+                src="https://cdn.discordapp.com/attachments/1372928783446708365/1372952196446032064/maxresdefault.png?ex=6828a4df&is=6827535f&hm=5ec6e5a8860ea913bd666f82b0172f9b716b8d7699856936533edee0cc5cee37&"
+                alt="Miniature YouTube"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end"
+              >
+                <div class="p-6">
+                  <h3 class="text-white text-xl font-bold">Miniature Gaming</h3>
+                  <p class="text-gray-300">YouTube, Gaming</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="portfolio-item rounded-lg overflow-hidden shadow-lg group"
+            data-category="youtube gaming"
+          >
+            <div class="relative overflow-hidden">
+              <img
+                src="https://cdn.discordapp.com/attachments/1372928783446708365/1372952300473286736/Minia_du_GOAT_Azior_fait_par_le_GOAT_ISAAC_AOT.png?ex=6828a4f8&is=68275378&hm=f6d0b2dd446f4334360466061332d70277022b65e8e090da0bf4379902ab9484&"
+                alt="Miniature YouTube"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end"
+              >
+                <div class="p-6">
+                  <h3 class="text-white text-xl font-bold">Azior AOT</h3>
+                  <p class="text-gray-300">YouTube, Gaming</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-12">
+          <a
+            href="https://www.behance.net/gallery/226038779/PORTFOLIO-ISAAC"
+            target="_blank"
+            class="btn-hover inline-flex items-center bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-8 !rounded-button shadow-lg transition-all whitespace-nowrap"
+          >
+            <span>Voir plus sur Behance</span>
+            <i class="ri-arrow-right-line ri-lg ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Services Section -->
+    <section id="services" class="py-20 palm-bg">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Mes <span class="text-primary">Services</span>
+          </h2>
+          <p class="text-gray-700 max-w-2xl mx-auto">
+            Je propose des services de création graphique personnalisés pour
+            booster votre présence en ligne et attirer plus de spectateurs.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-6"
+            >
+              <i class="ri-image-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Miniatures YouTube</h3>
+            <p class="text-gray-600 mb-6">
+              Des miniatures accrocheuses et professionnelles qui augmentent
+              votre taux de clics et attirent de nouveaux spectateurs.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start">
+                <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                <span>Design personnalisé</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                <span>Optimisé pour l'algorithme</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                <span>Révisions illimitées</span>
+              </li>
+            </ul>
+            <a
+              href="#tarifs"
+              class="inline-block text-primary font-medium hover:text-blue-700 transition-colors"
+            >
+              Voir les tarifs
+              <i class="ri-arrow-right-line align-middle ml-1"></i>
+            </a>
+          </div>
+          <div
+            class="card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-green-100 text-secondary rounded-full mb-6"
+            >
+              <i class="ri-layout-4-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Bannières</h3>
+            <p class="text-gray-600 mb-6">
+              Des bannières élégantes pour votre chaîne YouTube, Discord ou
+              réseaux sociaux qui reflètent votre identité.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start">
+                <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                <span>Format optimisé</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                <span>Design cohérent</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                <span>Adaptable multi-plateformes</span>
+              </li>
+            </ul>
+            <a
+              href="#tarifs"
+              class="inline-block text-secondary font-medium hover:text-green-700 transition-colors"
+            >
+              Voir les tarifs
+              <i class="ri-arrow-right-line align-middle ml-1"></i>
+            </a>
+          </div>
+          <div
+            class="card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-6"
+            >
+              <i class="ri-stack-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Pack Complet</h3>
+            <p class="text-gray-600 mb-6">
+              Une solution tout-en-un avec miniature et bannière assorties pour
+              une identité visuelle cohérente.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start">
+                <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                <span>Miniature YouTube</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                <span>Bannière assortie</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                <span>Prix avantageux</span>
+              </li>
+            </ul>
+            <a
+              href="#tarifs"
+              class="inline-block text-primary font-medium hover:text-blue-700 transition-colors"
+            >
+              Voir les tarifs
+              <i class="ri-arrow-right-line align-middle ml-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Tarifs Section -->
+    <section id="tarifs" class="py-20 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Mes <span class="text-primary">Tarifs</span>
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Des prix transparents et compétitifs pour des créations graphiques
+            de qualité professionnelle.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div
+            class="card bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all"
+          >
+            <div class="bg-primary text-white p-6 text-center">
+              <h3 class="text-xl font-bold">Miniatures</h3>
+            </div>
+            <div class="p-8">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold">5€ - 10€</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Format YouTube optimisé</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Design personnalisé</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Livraison rapide</span>
+                </li>
+              </ul>
+              <a
+                href="#contact"
+                class="btn-hover block text-center bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-6 !rounded-button shadow-md transition-all whitespace-nowrap"
+              >
+                Commander
+              </a>
+            </div>
+          </div>
+          <div
+            class="card bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all transform md:-translate-y-4"
+          >
+            <div
+              class="bg-gradient-to-r from-primary to-secondary text-white p-6 text-center relative"
+            >
+              <div
+                class="absolute top-0 right-0 bg-yellow-400 text-xs font-bold uppercase py-1 px-2 transform translate-x-2 -translate-y-1/2 !rounded-button"
+              >
+                Populaire
+              </div>
+              <h3 class="text-xl font-bold">Pack Complet</h3>
+            </div>
+            <div class="p-8">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold">13€ - 15€</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Miniature YouTube</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Bannière assortie</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Design cohérent</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>3 révisions incluses</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-primary mt-1 mr-2"></i>
+                  <span>Économie sur le prix total</span>
+                </li>
+              </ul>
+              <a
+                href="#contact"
+                class="btn-hover block text-center bg-gradient-to-r from-primary to-secondary hover:from-blue-700 hover:to-green-700 text-white font-semibold py-3 px-6 !rounded-button shadow-md transition-all whitespace-nowrap"
+              >
+                Commander
+              </a>
+            </div>
+          </div>
+          <div
+            class="card bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all"
+          >
+            <div class="bg-secondary text-white p-6 text-center">
+              <h3 class="text-xl font-bold">Bannières</h3>
+            </div>
+            <div class="p-8">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold">7€ - 10€</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                  <span>Format optimisé</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                  <span>Design personnalisé</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                  <span>Compatible multi-plateformes</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line text-secondary mt-1 mr-2"></i>
+                  <span>2 révisions incluses</span>
+                </li>
+              </ul>
+              <a
+                href="#contact"
+                class="btn-hover block text-center bg-secondary hover:bg-green-700 text-white font-semibold py-3 px-6 !rounded-button shadow-md transition-all whitespace-nowrap"
+              >
+                Commander
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 contact-bg">
+      <div class="container mx-auto px-6">
+        <div
+          class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden"
+        >
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div
+              class="p-8 md:p-12 bg-gradient-to-br from-primary to-secondary text-white"
+            >
+              <h2 class="text-3xl font-bold mb-6">Contactez-moi</h2>
+              <p class="mb-8">
+                Prêt à booster votre contenu avec des visuels professionnels ?
+                Envoyez-moi un message et je vous répondrai dans les plus brefs
+                délais.
+              </p>
+              <div class="space-y-6">
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full mr-4 shrink-0"
+                  >
+                    <i class="ri-discord-line text-white"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-lg">Discord</h3>
+                    <a
+                      href="https://discord.gg/Qfj7XZ82KZ"
+                      target="_blank"
+                      class="text-white/80 hover:text-white transition-colors"
+                      >Rejoindre le serveur</a
+                    >
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full mr-4 shrink-0"
+                  >
+                    <i class="ri-youtube-line text-white"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-lg">YouTube</h3>
+                    <a
+                      href="https://www.youtube.com/@samsyx_off"
+                      target="_blank"
+                      class="text-white/80 hover:text-white transition-colors"
+                      >@samsyx_off</a
+                    >
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full mr-4 shrink-0"
+                  >
+                    <i class="ri-behance-line text-white"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-lg">Behance</h3>
+                    <a
+                      href="https://www.behance.net/gallery/226038779/PORTFOLIO-ISAAC"
+                      target="_blank"
+                      class="text-white/80 hover:text-white transition-colors"
+                      >Voir mon portfolio complet</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-8 md:p-12">
+              <h3 class="text-2xl font-bold mb-6">Envoyez-moi un message</h3>
+              <form
+                id="contact-form"
+                class="space-y-6"
+                onsubmit="sendToDiscord(event)"
+              >
+                <div>
+                  <label
+                    for="discord"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Pseudo Discord</label
+                  >
+                  <input
+                    type="text"
+                    id="discord"
+                    name="discord"
+                    class="w-full px-4 py-3 border border-gray-300 !rounded-button focus:border-primary focus:ring focus:ring-primary/20 transition-all"
+                    placeholder="Votre pseudo Discord"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Nom</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="w-full px-4 py-3 border border-gray-300 !rounded-button focus:border-primary focus:ring focus:ring-primary/20 transition-all"
+                    placeholder="Votre nom"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="w-full px-4 py-3 border border-gray-300 !rounded-button focus:border-primary focus:ring focus:ring-primary/20 transition-all"
+                    placeholder="Votre email"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="service"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Service souhaité</label
+                  >
+                  <div class="relative">
+                    <select
+                      id="service"
+                      name="service"
+                      class="w-full px-4 py-3 border border-gray-300 !rounded-button focus:border-primary focus:ring focus:ring-primary/20 transition-all appearance-none pr-8"
+                      required
+                    >
+                      <option value="" disabled selected>
+                        Choisir un service
+                      </option>
+                      <option value="miniature">Miniature YouTube</option>
+                      <option value="banniere">Bannière</option>
+                      <option value="pack">Pack complet</option>
+                      <option value="autre">Autre demande</option>
+                    </select>
+                    <div
+                      class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+                    >
+                      <i class="ri-arrow-down-s-line text-gray-500"></i>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="message"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Message</label
+                  >
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    class="w-full px-4 py-3 border border-gray-300 !rounded-button focus:border-primary focus:ring focus:ring-primary/20 transition-all"
+                    placeholder="Décrivez votre projet..."
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="btn-hover w-full bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-6 !rounded-button shadow-md transition-all whitespace-nowrap"
+                >
+                  Envoyer ma demande
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0">
+            <a href="#" class="text-3xl font-['Pacifico'] text-white">SamSyx</a>
+            <p class="mt-2 text-gray-400">
+              Créateur de miniatures YouTube & Gaming
+            </p>
+          </div>
+          <div class="flex space-x-6">
+            <a
+              href="https://discord.gg/Qfj7XZ82KZ"
+              target="_blank"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary rounded-full transition-colors"
+            >
+              <i class="ri-discord-fill"></i>
+            </a>
+            <a
+              href="https://www.youtube.com/@samsyx_off"
+              target="_blank"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary rounded-full transition-colors"
+            >
+              <i class="ri-youtube-fill"></i>
+            </a>
+            <a
+              href="https://www.behance.net/gallery/226038779/PORTFOLIO-ISAAC"
+              target="_blank"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary rounded-full transition-colors"
+            >
+              <i class="ri-behance-fill"></i>
+            </a>
+          </div>
+        </div>
+        <hr class="border-gray-800 my-8" />
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">
+            © 2025 Isaac Off. Tous droits réservés.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition-colors"
+              >Accueil</a
+            >
+            <a
+              href="#portfolio"
+              class="text-gray-400 hover:text-white text-sm transition-colors"
+              >Portfolio</a
+            >
+            <a
+              href="#services"
+              class="text-gray-400 hover:text-white text-sm transition-colors"
+              >Services</a
+            >
+            <a
+              href="#tarifs"
+              class="text-gray-400 hover:text-white text-sm transition-colors"
+              >Tarifs</a
+            >
+            <a
+              href="#contact"
+              class="text-gray-400 hover:text-white text-sm transition-colors"
+              >Contact</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Discord Join Section -->
+    <section
+      class="py-16 bg-gradient-to-r from-primary to-secondary text-white"
+    >
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Rejoignez le Discord !
+        </h2>
+        <p class="text-xl mb-8">
+          Rejoignez notre communauté pour des discussions, des conseils et des
+          offres exclusives.
+        </p>
+        <a
+          href="https://discord.gg/Qfj7XZ82KZ"
+          target="_blank"
+          class="btn-hover inline-flex items-center bg-white text-primary hover:bg-gray-100 font-semibold py-4 px-8 !rounded-button shadow-lg transition-all whitespace-nowrap text-lg"
+        >
+          <i class="ri-discord-fill mr-2"></i>
+          Rejoindre le serveur
+        </a>
+      </div>
+    </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("hidden");
+          if (mobileMenu.classList.contains("hidden")) {
+            mobileMenuButton.innerHTML = '<i class="ri-menu-line ri-lg"></i>';
+          } else {
+            mobileMenuButton.innerHTML = '<i class="ri-close-line ri-lg"></i>';
+          }
+        });
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll("a");
+        mobileLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            mobileMenu.classList.add("hidden");
+            mobileMenuButton.innerHTML = '<i class="ri-menu-line ri-lg"></i>';
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Portfolio filtering
+        const filterButtons = document.querySelectorAll(".portfolio-filter-btn");
+        const portfolioItems = document.querySelectorAll(".portfolio-item");
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Remove active class from all buttons
+            filterButtons.forEach((btn) => {
+              btn.classList.remove("active", "bg-primary", "text-white");
+              btn.classList.add("text-gray-700", "hover:bg-gray-300");
+            });
+            // Add active class to clicked button
+            this.classList.add("active", "bg-primary", "text-white");
+            this.classList.remove("text-gray-700", "hover:bg-gray-300");
+            const filter = this.getAttribute("data-filter");
+            portfolioItems.forEach((item) => {
+              if (filter === "all") {
+                item.style.display = "block";
+              } else {
+                const categories = item.getAttribute("data-category").split(" ");
+                if (categories.includes(filter)) {
+                  item.style.display = "block";
+                } else {
+                  item.style.display = "none";
+                }
+              }
+            });
+          });
+        });
+      });
+      function showConfirmationModal(formData) {
+        const modal = document.createElement("div");
+        modal.className = "modal-overlay";
+        modal.innerHTML = `
+      <div class="modal-content">
+      <h3 class="text-2xl font-bold mb-4">Confirmer votre demande</h3>
+      <div class="space-y-3 mb-6">
+      <p><strong>Discord:</strong> ${formData.discord}</p>
+      <p><strong>Nom:</strong> ${formData.name}</p>
+      <p><strong>Email:</strong> ${formData.email}</p>
+      <p><strong>Service:</strong> ${formData.service}</p>
+      <p><strong>Message:</strong> ${formData.message}</p>
+      </div>
+      <div class="flex justify-end space-x-4">
+      <button class="px-4 py-2 text-gray-600 hover:text-gray-800" onclick="this.closest('.modal-overlay').remove()">Annuler</button>
+      <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-blue-700" onclick="submitToDiscord(this)">Confirmer</button>
+      </div>
+      </div>`;
+        document.body.appendChild(modal);
+      }
+      function createConfetti() {
+        const colors = ["#2563eb", "#10b981", "#f59e0b", "#ef4444"];
+        for (let i = 0; i < 50; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDelay = Math.random() * 3 + "s";
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }
+      }
+      function showSuccessModal(name) {
+        const modal = document.createElement("div");
+        modal.className = "modal-overlay";
+        modal.innerHTML = `
+      <div class="modal-content text-center">
+      <div class="mb-4">
+      <div class="w-16 h-16 bg-green-100 rounded-full mx-auto flex items-center justify-center">
+      <i class="ri-check-line text-3xl text-green-500"></i>
+      </div>
+      </div>
+      <h3 class="text-2xl font-bold mb-4">Message envoyé avec succès!</h3>
+      <button class="px-6 py-2 bg-primary text-white rounded-button hover:bg-blue-700" onclick="this.closest('.modal-overlay').remove(); showTemporaryMessage('${name}')">OK</button>
+      </div>`;
+        document.body.appendChild(modal);
+      }
+      function showTemporaryMessage(name) {
+        createConfetti();
+        const message = document.createElement("div");
+        message.className = "success-message";
+        message.textContent = `Merci De Votre Commande ${name}`;
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), 5000);
+      }
+      function sendToDiscord(e) {
+        e.preventDefault();
+        const formData = {
+          discord: document.getElementById("discord").value,
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          service: document.getElementById("service").value,
+          message: document.getElementById("message").value,
+        };
+        showConfirmationModal(formData);
+      }
+      function submitToDiscord(button) {
+        const modal = button.closest(".modal-overlay");
+        const formData = {
+          discord: document.getElementById("discord").value,
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          service: document.getElementById("service").value,
+          message: document.getElementById("message").value,
+        };
+        const webhookURL =
+          "https://discord.com/api/webhooks/1372951040931922095/Gr_yz5172viOmm0VpgEef3c_zJHqG-1XChXizDYB_2h9IgyxmeqKGTB-xWiOxhw55J5j";
+        const data = {
+          embeds: [
+            {
+              title: "Nouvelle demande de contact",
+              color: 0x2563eb,
+              fields: [
+                {
+                  name: "Discord",
+                  value: formData.discord,
+                  inline: true,
+                },
+                {
+                  name: "Nom",
+                  value: formData.name,
+                  inline: true,
+                },
+                {
+                  name: "Email",
+                  value: formData.email,
+                  inline: true,
+                },
+                {
+                  name: "Service",
+                  value: formData.service,
+                  inline: true,
+                },
+                {
+                  name: "Message",
+                  value: formData.message,
+                },
+              ],
+              timestamp: new Date().toISOString(),
+            },
+          ],
+        };
+        fetch(webhookURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (response.ok) {
+              modal.remove();
+              document.getElementById("contact-form").reset();
+              showSuccessModal(formData.name);
+            } else {
+              throw new Error("Erreur lors de l'envoi");
+            }
+          })
+          .catch((error) => {
+            modal.remove();
+            const errorMessage = document.createElement("div");
+            errorMessage.className =
+              "fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg";
+            errorMessage.textContent = "Erreur lors de l'envoi du message";
+            document.body.appendChild(errorMessage);
+            setTimeout(() => errorMessage.remove(), 3000);
+          });
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            if (targetId === "#") return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 80, // Adjust for header height
+                behavior: "smooth",
+              });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
